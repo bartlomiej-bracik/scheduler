@@ -1,19 +1,27 @@
 import * as React from 'react';
 import Paper from '@mui/material/Paper';
 import { ViewState, EditingState } from '@devexpress/dx-react-scheduler';
+
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import DateFnsUtils from '@date-io/date-fns';
 import {
   Scheduler,
   Appointments,
   AppointmentForm,
   AppointmentTooltip,
   WeekView,
+  Toolbar,
+  ViewSwitcher,
   EditRecurrenceMenu,
   AllDayPanel,
   ConfirmationDialog,
+  MonthView,
+  DayView,
 } from '@devexpress/dx-react-scheduler-material-ui';
 
-
+import { pl } from 'date-fns/locale';
 //import { appointments } from '../../../demo-data/appointments';
+import { firestore } from './firebase'; // Adjust the import path
 
 
 const appointments = [
@@ -26,7 +34,8 @@ export default class Demo extends React.PureComponent {
     super(props);
     this.state = {
       data: appointments,
-      currentDate: '2018-06-27',
+      //currentDate: '2018-06-27',
+      currentDate: new Date().toISOString().split('T')[0], // Set currentDate to today's date
 
       addedAppointment: {},
       appointmentChanges: {},
@@ -75,6 +84,8 @@ export default class Demo extends React.PureComponent {
     } = this.state;
 
     return (
+
+      <LocalizationProvider dateAdapter={DateFnsUtils} locale={pl}>
       <Paper>
         <Scheduler
           data={data}
@@ -96,17 +107,52 @@ export default class Demo extends React.PureComponent {
             startDayHour={9}
             endDayHour={17}
           />
-          <AllDayPanel />
+           <MonthView />
+           <DayView />
+
+
+
+          <Toolbar />
+          <ViewSwitcher
+           messages={{
+            dayViewLabel: 'Dzień',
+            weekViewLabel: 'Tydzień',
+            monthViewLabel: 'Miesiąc',
+          }} />
+          <AllDayPanel 
+          messages={{
+            allDay: 'Cały dzień',
+          }}/>
           <EditRecurrenceMenu />
-          <ConfirmationDialog />
+          <ConfirmationDialog 
+            messages={{
+              confirmDeleteMessage: 'Czy na pewno chcesz usunąć to spotkanie?',
+              confirmCancelMessage: 'Czy na pewno chcesz anulować edycję?',
+            }}/>
           <Appointments />
           <AppointmentTooltip
             showOpenButton
             showDeleteButton
+            messages={{
+              openButton: 'Otwórz',
+              deleteButton: 'Usuń',
+              allDayLabel: 'Cały dzień',
+            }}
           />
-          <AppointmentForm />
+          <AppointmentForm 
+          messages={{
+            detailsLabel: 'Szczegóły',
+            allDayLabel: 'Cały dzień',
+            titleLabel: 'Tytuł',
+            commitCommand: 'Zapisz',
+            moreInformationLabel: 'Więcej informacji',
+            repeatLabel: 'Powtarzaj',
+            notesLabel: 'Notatki',
+          }} />
         </Scheduler>
       </Paper>
+
+      </LocalizationProvider>
     );
   }
 }
