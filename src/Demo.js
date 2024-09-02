@@ -23,12 +23,15 @@ import {
 } from '@devexpress/dx-react-scheduler-material-ui';
 import { pl } from 'date-fns/locale';
 import { getDatabase, ref, set, push, update, remove, get } from "firebase/database";
+import { database } from './firebase';
 
 // Default appointments data
 const defaultAppointments = [
   { startDate: '2018-11-01T09:45', endDate: '2018-11-01T11:00', title: 'Meeting' },
   { startDate: '2018-11-01T12:00', endDate: '2018-11-01T13:30', title: 'Go to a gym' },
 ];
+
+let addedDate = 0;
 
 // External view switcher component
 const ExternalViewSwitcher = ({ currentViewName, onChange }) => (
@@ -50,7 +53,6 @@ export default class Demo extends React.PureComponent {
     super(props);
     this.state = {
       data: defaultAppointments, // Initialize with default appointments
-      currentDate: new Date().toISOString().split('T')[0],
       currentViewName: 'Week', // Default view
       addedAppointment: {},
       appointmentChanges: {},
@@ -91,29 +93,45 @@ export default class Demo extends React.PureComponent {
 
   async commitChanges({ added, changed, deleted }) {
     const database = getDatabase(); // Ensure database is initialized
-  
+    
     this.setState((state) => {
       let { data } = state;
-  
-      if (added) {
-        const newAppointmentRef = push(ref(database, 'appointments'));
-        const newAppointment = { ...added };
-        set(newAppointmentRef, newAppointment)
-          .catch(error => console.error('Error adding appointment:', error));
-        
-        data = [...data, { id: newAppointmentRef.key, ...newAppointment }];
-      }
   
       if (changed) {
         Object.keys(changed).forEach(id => {
           const appointmentRef = ref(database, `appointments/${id}`);
           update(appointmentRef, changed[id])
             .catch(error => console.error('Error updating appointment:', error));
-          
+  
           data = data.map(appointment =>
             appointment.id === id ? { ...appointment, ...changed[id] } : appointment
           );
         });
+      }
+  
+      if (added) {
+        
+        const now = new Date().getTime();
+        if(now-addedDate > 5000 )
+        {
+          addedDate = now;
+          
+          const newAppointmentRef = push(ref(database, 'appointments'));
+          const newAppointment = {
+            allDay: added.allDay,
+            startDate: added.startDate.toISOString(),
+            endDate: added.endDate.toISOString(),
+            title: added.title,
+          };
+          
+          console.log('Adding appointment:', added); // Log new appointment
+    
+          set(newAppointmentRef, newAppointment)
+            .catch(error => console.error('Error adding appointment:', error));
+    
+          data = [...data, { id: newAppointmentRef.key, ...newAppointment }];
+        }
+       
       }
   
       if (deleted !== undefined) {
@@ -128,6 +146,9 @@ export default class Demo extends React.PureComponent {
     });
   }
 
+
+
+  
   handleViewChange(event) {
     this.setState({ currentViewName: event.target.value });
   }
@@ -183,12 +204,16 @@ export default class Demo extends React.PureComponent {
                 messages={{
                   confirmDeleteMessage: 'Czy na pewno chcesz usunąć to spotkanie?',
                   confirmCancelMessage: 'Czy na pewno chcesz anulować edycję?',
+                  cancelButton: 'Anuluj',
+                  discardButton: 'Odrzuć'
+
                 }}
               />
               <Appointments />
               <AppointmentTooltip
                 showOpenButton
                 showDeleteButton
+                recurringIconComponent={false}
                 messages={{
                   openButton: 'Otwórz',
                   deleteButton: 'Usuń',
