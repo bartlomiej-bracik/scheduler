@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/sheduler/static/css/main.e6c13ad2.css",
-    "main.js": "/sheduler/static/js/main.ab3ff929.js",
-    "static/js/453.b47a3910.chunk.js": "/sheduler/static/js/453.b47a3910.chunk.js",
-    "index.html": "/sheduler/index.html",
-    "main.e6c13ad2.css.map": "/sheduler/static/css/main.e6c13ad2.css.map",
-    "main.ab3ff929.js.map": "/sheduler/static/js/main.ab3ff929.js.map",
-    "453.b47a3910.chunk.js.map": "/sheduler/static/js/453.b47a3910.chunk.js.map"
+    "main.css": "/scheduler/static/css/main.e6c13ad2.css",
+    "main.js": "/scheduler/static/js/main.5fbbc138.js",
+    "static/js/453.b47a3910.chunk.js": "/scheduler/static/js/453.b47a3910.chunk.js",
+    "index.html": "/scheduler/index.html",
+    "main.e6c13ad2.css.map": "/scheduler/static/css/main.e6c13ad2.css.map",
+    "main.5fbbc138.js.map": "/scheduler/static/js/main.5fbbc138.js.map",
+    "453.b47a3910.chunk.js.map": "/scheduler/static/js/453.b47a3910.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.e6c13ad2.css",
-    "static/js/main.ab3ff929.js"
+    "static/js/main.5fbbc138.js"
   ]
 }
