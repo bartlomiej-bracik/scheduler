@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/sheduler/static/css/main.e6c13ad2.css",
-    "main.js": "/sheduler/static/js/main.5dd3f1cc.js",
+    "main.js": "/sheduler/static/js/main.ab3ff929.js",
     "static/js/453.b47a3910.chunk.js": "/sheduler/static/js/453.b47a3910.chunk.js",
     "index.html": "/sheduler/index.html",
     "main.e6c13ad2.css.map": "/sheduler/static/css/main.e6c13ad2.css.map",
-    "main.5dd3f1cc.js.map": "/sheduler/static/js/main.5dd3f1cc.js.map",
+    "main.ab3ff929.js.map": "/sheduler/static/js/main.ab3ff929.js.map",
     "453.b47a3910.chunk.js.map": "/sheduler/static/js/453.b47a3910.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.e6c13ad2.css",
-    "static/js/main.5dd3f1cc.js"
+    "static/js/main.ab3ff929.js"
   ]
 }
