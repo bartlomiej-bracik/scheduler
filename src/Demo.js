@@ -25,7 +25,6 @@ import { pl } from 'date-fns/locale';
 import { getDatabase, ref, set, push, update, remove, get } from "firebase/database";
 import { database } from './firebase';
 
-// Default appointments data
 const defaultAppointments = [
   { startDate: '2018-11-01T09:45', endDate: '2018-11-01T11:00', title: 'Meeting' },
   { startDate: '2018-11-01T12:00', endDate: '2018-11-01T13:30', title: 'Go to a gym' },
@@ -52,7 +51,7 @@ export default class Demo extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      data: defaultAppointments, // Initialize with default appointments
+      data: defaultAppointments, 
       currentViewName: 'Week', // Default view
       addedAppointment: {},
       appointmentChanges: {},
@@ -73,7 +72,7 @@ export default class Demo extends React.PureComponent {
 
   async loadAppointments() {
     try {
-      const database = getDatabase(); // Ensure database is initialized
+      const database = getDatabase(); 
       const appointmentsRef = ref(database, 'appointments');
       const snapshot = await get(appointmentsRef);
       
@@ -84,7 +83,7 @@ export default class Demo extends React.PureComponent {
         }));
         this.setState({ data });
       } else {
-        this.setState({ data: defaultAppointments }); // Load default appointments if none exist
+        this.setState({ data: defaultAppointments }); 
       }
     } catch (error) {
       console.error('Error loading appointments:', error);
@@ -92,7 +91,7 @@ export default class Demo extends React.PureComponent {
   }
 
   async commitChanges({ added, changed, deleted }) {
-    const database = getDatabase(); // Ensure database is initialized
+    const database = getDatabase();
     
     this.setState((state) => {
       let { data } = state;
@@ -124,7 +123,7 @@ export default class Demo extends React.PureComponent {
             title: added.title,
           };
           
-          console.log('Adding appointment:', added); // Log new appointment
+          console.log('Adding appointment:', added); 
     
           set(newAppointmentRef, newAppointment)
             .catch(error => console.error('Error adding appointment:', error));
@@ -146,9 +145,6 @@ export default class Demo extends React.PureComponent {
     });
   }
 
-
-
-  
   handleViewChange(event) {
     this.setState({ currentViewName: event.target.value });
   }
@@ -213,7 +209,7 @@ export default class Demo extends React.PureComponent {
               <AppointmentTooltip
                 showOpenButton
                 showDeleteButton
-                recurringIconComponent={false}
+                
                 messages={{
                   openButton: 'Otwórz',
                   deleteButton: 'Usuń',
@@ -221,6 +217,7 @@ export default class Demo extends React.PureComponent {
                 }}
               />
               <AppointmentForm 
+                recurringIconComponent = {null}
                 messages={{
                   detailsLabel: 'Szczegóły',
                   allDayLabel: 'Cały dzień',
